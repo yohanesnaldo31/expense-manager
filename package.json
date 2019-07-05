@@ -1,0 +1,11 @@
+{
+  "name": "expense-manager",
+  "version": "1.0.0",
+  "description": "Application to track your expense",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yohanes Naldo",
+  "license": "ISC"
+}
