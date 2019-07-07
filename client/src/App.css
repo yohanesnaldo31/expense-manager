@@ -1,0 +1,12 @@
+.Btn-resp{
+  width: 100%;
+  border-radius: 3px;
+  letter-spacing: 1.5px;
+  margin-top: 1rem;
+}
+
+@media (min-width: 500px){
+  .Btn-resp{
+    width: 150px;
+  }
+}
