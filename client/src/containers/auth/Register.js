@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Input from '../UI/AuthInput';
+import Input from '../../components/UI/AuthInput';
 
 class Register extends Component{
     state = {
@@ -67,6 +67,7 @@ class Register extends Component{
             })
         }
         const errors = this.state.errors;
+        // generate form inputs
         const form = (
             <form noValidate onSubmit={this.registerHandler}>
                 {
@@ -101,7 +102,7 @@ class Register extends Component{
         );
         return (
             <div className="container">
-                <div className="row">
+                <div className="row" style={{marginTop: "2rem"}}>
                     <div className="col s12 m8 offset-m2">
                         <Link
                             to="/"
