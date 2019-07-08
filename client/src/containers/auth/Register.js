@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import { registerUser } from '../../store/actions/authActions';
 import Input from '../../components/UI/AuthInput';
 
 class Register extends Component{
@@ -31,6 +33,14 @@ class Register extends Component{
         
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.errors){
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
+
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedRegisterForm={
             ...this.state.registerForm
@@ -54,7 +64,7 @@ class Register extends Component{
             password: this.state.registerForm.password.value,
             password2: this.state.registerForm.password2.value
         }
-        console.log(newUser);
+       this.props.registerUser(newUser, this.props.history);
     }
 
 
@@ -127,4 +137,9 @@ class Register extends Component{
     }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

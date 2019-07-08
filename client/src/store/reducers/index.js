@@ -8,4 +8,4 @@ const combinedReducer = combineReducers({
     errors: errorReducer
 });
 
-export default combineReducers;
+export default combinedReducer;

@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const AuthInput = (props) => {
     return (
@@ -9,8 +10,12 @@ const AuthInput = (props) => {
                 name={props.name}
                 type={props.type}
                 onChange={props.changed}
+                className={classnames('', {
+                    invalid: props.error
+                })}
             />
             <label htmlFor={props.name}>{props.label}</label>
+            <span className="red-text">{props.error}</span>
         </div>
     )
 }

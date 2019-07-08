@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
+import {loginUser} from '../../store/actions/authActions';
 import Input from '../../components/UI/AuthInput';
 
 class Login extends Component{
@@ -21,6 +23,19 @@ class Login extends Component{
         errors: {}
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log('props change')
+        //redirect if login success
+        if(nextProps.auth.isAuthenticated){
+            this.props.history.push('/dashboard')
+        }
+        if(nextProps.errors){
+            this.setState({
+                errors: nextProps.errors
+            })
+        }
+    }
+
     onChangeHandler = (event, inputIdentifier) => {
         const updatedFormLogin = { ...this.state.formLogin };
         const updatedFormLoginElement = {...updatedFormLogin[inputIdentifier] };
@@ -33,10 +48,15 @@ class Login extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
+        const userData = {
+            email: this.state.formLogin.email.value,
+            password: this.state.formLogin.password.value
+        }
+        this.props.loginUser(userData);
     }
 
     render(){
-        const errors = {...this.state.errors};
+        const errors = this.state.errors;
         const formElementsArray = [];
         for(let key in this.state.formLogin){
             formElementsArray.push({
@@ -54,7 +74,7 @@ class Login extends Component{
                         name={formElement.id}
                         type={formElement.config.type}
                         label={formElement.config.label}
-                        error={errors[formElement]}
+                        error={errors[formElement.id]}
                         changed={(event) => this.onChangeHandler(event, formElement.id)}
                     />)
                 })}
@@ -106,4 +126,10 @@ class Login extends Component{
     }
 }
 
-export default Login;
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);
