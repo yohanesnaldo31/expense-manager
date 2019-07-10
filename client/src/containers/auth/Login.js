@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {loginUser} from '../../store/actions/authActions';
-import Input from '../../components/UI/AuthInput';
+import Input from '../../components/UI/Input';
 
 class Login extends Component{
 
@@ -23,11 +23,17 @@ class Login extends Component{
         errors: {}
     }
 
+    componentDidMount(){
+        if(this.props.auth.isAuthenticated){
+            this.props.history.push('/home');
+        }
+    }
+
     componentWillReceiveProps(nextProps){
         console.log('props change')
         //redirect if login success
         if(nextProps.auth.isAuthenticated){
-            this.props.history.push('/dashboard')
+            this.props.history.push('/home')
         }
         if(nextProps.errors){
             this.setState({
@@ -93,7 +99,6 @@ class Login extends Component{
                         Log in
                     </button>
                 </div>
-                
             </form>
         )
 

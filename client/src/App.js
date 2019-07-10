@@ -11,22 +11,24 @@ import Landing from './components/layout/Landing';
 import Register from './containers/auth/Register';
 import Login from './containers/auth/Login';
 import PrivateRoute from './components/private-route/PrivateRoute';
-import Dashboard from './components/dashboard/Dashboard';
+import Dashboard from './containers/expenses-manager/ExpenseManager';
 
 import './App.css';
 
 // check if jwtToken exist
 if(localStorage.jwtToken){
+  
   // check for token 
   const token = localStorage.jwtToken;
   setAuthToken(token);
   // decode token and get user data
   const decoded = jwt_decode(token);
+  console.log(decoded);
   // set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
 
   //check for expired token
-  const currentTime = Date.now();
+  const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime){
     //logout the user
     store.dispatch(logoutUser());
@@ -45,7 +47,7 @@ function App() {
             <Route exact path='/' component={Landing} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
-            <PrivateRoute exact path='/dashboard' component={Dashboard} />
+            <PrivateRoute exact path='/home' component={Dashboard} />
           </Switch>
           
         </div>

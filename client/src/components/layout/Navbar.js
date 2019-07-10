@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = (props) => {
     return (
-      <div className="navbar-fixed">
+      <div className="navbar-fixed" style={{zIndex: 400}}>
           <nav className="z-depth-1">
               <div className="nav-wrapper blue">
                 <Link

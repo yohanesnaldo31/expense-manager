@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Landing = (props) => {
+    if(props.auth.isAuthenticated){
+        props.history.push('/home');
+    }
     return (
         <div style={{ height: "75vh" }} className="container valign-wrapper">
             <div className="row">
@@ -47,5 +51,9 @@ const Landing = (props) => {
     );
 }
 
-export default Landing;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps)(Landing);
  

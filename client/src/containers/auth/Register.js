@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { registerUser } from '../../store/actions/authActions';
-import Input from '../../components/UI/AuthInput';
+import Input from '../../components/UI/Input';
 
 class Register extends Component{
     state = {
@@ -31,6 +31,12 @@ class Register extends Component{
         },
         errors: {}
         
+    }
+
+    componentDidMount(){
+        if(this.props.auth.isAuthenticated){
+            this.props.history.push('/home');
+        }
     }
 
     componentWillReceiveProps(nextProps){
