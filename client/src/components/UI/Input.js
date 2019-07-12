@@ -43,14 +43,12 @@ const Input = (props) => {
             break;
         case 'select':
             InputElement = 
-                
                 <Select 
                     s={12}
                     label={props.label}
                     name={props.name} 
                     onChange={props.changed} 
-                    value={props.value}>
-                    
+                >
                     {Object.keys(props.options)
                         .map(id => {
                             return (
@@ -58,23 +56,11 @@ const Input = (props) => {
                                     alignment={'right'}
                                     key={props.options[id].value}
                                     value={props.options[id].value}>
-                                    {props.options[id].value}
+                                    {props.options[id].DisplayedValue}
                                 </option>)
                         })}
 
-                </Select>
-                {/* <input 
-                    value={props.value}
-                    error={props.error}
-                    name={props.name}
-                    type={props.type}
-                    onChange={props.changed}
-                    className={classnames('', {
-                        invalid: props.error
-                    })}
-                /> */}
-               
-            
+                </Select>               
             break;
         default: InputElement=null;
     }

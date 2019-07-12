@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import Aux from '../../../hoc/Auxiliary';
@@ -21,34 +21,39 @@ class AddExpense extends Component {
                 type: 'number',
                 label: 'Value'
             },
+            // date: {
+            //     value: '',
+            //     type: 'date',
+            //     label: 'Date of expense'
+            // },
             month: {
-                value: 'January',
+                value: 1,
                 type: 'select',
                 options: [
-                    {value: 'January'},
-                    {value: 'February'},
-                    {value: 'March'},
-                    {value: 'April'},
-                    {value: 'May'},
-                    {value: 'June'},
-                    {value: 'July'},
-                    {value: 'August'},
-                    {value: 'September'},
-                    {value: 'October'},
-                    {value: 'November'},
-                    {value: 'December'}
+                    {value: 1, DisplayedValue: 'January'},
+                    {value: 2, DisplayedValue: 'February'},
+                    {value: 3, DisplayedValue: 'March'},
+                    {value: 4, DisplayedValue: 'April'},
+                    {value: 5, DisplayedValue: 'May'},
+                    {value: 6, DisplayedValue: 'June'},
+                    {value: 7, DisplayedValue: 'July'},
+                    {value: 8, DisplayedValue: 'August'},
+                    {value: 9, DisplayedValue: 'September'},
+                    {value: 10, DisplayedValue: 'October'},
+                    {value: 11, DisplayedValue: 'November'},
+                    {value: 12, DisplayedValue: 'December'}
                 ],
                 label: 'Select Month'
             },
             year: {
-                value: '2019',
+                value: 2019,
                 type: 'select',
                 options: [
-                    {value: '2019'},
-                    {value: '2020'},
-                    {value: '2021'},
-                    {value: '2022'},
-                    {value: '2023'}
+                    {value: 2019, DisplayedValue: '2019'},
+                    {value: 2020, DisplayedValue: '2020'},
+                    {value: 2021, DisplayedValue: '2021'},
+                    {value: 2022, DisplayedValue: '2022'},
+                    {value: 2023, DisplayedValue: '2023'}
                 ],
                 label: 'Select Year'
             }
@@ -57,8 +62,7 @@ class AddExpense extends Component {
         modalIsOpen: false
     }
 
-    componentDidMount(){
-       
+    componentDidMount(){   
         this.setState({
             ownerId: this.props.user.id
         })
@@ -78,7 +82,7 @@ class AddExpense extends Component {
 
     onChangeHandler = (event, inputIdentifier) => {
         if(inputIdentifier==='value'){
-            if(!event.target.validity.valid && event.target.value != ''){
+            if(!event.target.validity.valid && event.target.value !== ''){
                 return;
             }
         }
@@ -88,6 +92,7 @@ class AddExpense extends Component {
         const updatedFormElement={
             ...updatedFormAdd[inputIdentifier]
         }
+        
         updatedFormElement.value = event.target.value;
         updatedFormAdd[inputIdentifier] = updatedFormElement;
 
@@ -98,9 +103,21 @@ class AddExpense extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
+        const expense = {
+            
+            ownerId: this.state.ownerId,
+            description: this.state.formAdd.description.value,
+            value: this.state.formAdd.value.value,
+            month: this.state.formAdd.month.value,
+            year: this.state.formAdd.year.value      
+        }
+        axios.post('/api/expenses/insert', expense)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
         this.setState({
             modalIsOpen: false
         })
+        this.props.history.push('/home');
     }
 
     render(){
@@ -128,18 +145,20 @@ class AddExpense extends Component {
                     />)
                 })}
                 <div className="col s12 m4 offset-m8" style={{ paddingLeft: "11.250px" }}>
-                    <button
-                        style={{
-                            width: "100%",
-                            borderRadius: "3px",
-                            letterSpacing: "1.5px",
-                            marginTop: "1rem"
-                        }}
-                        type="submit"
-                        className="col s12 btn btn-large waves-effect waves-light hoverable blue accent-3"
-                        >
-                        Add
-                    </button>
+                    
+                        <button
+                            style={{
+                                width: "100%",
+                                borderRadius: "3px",
+                                letterSpacing: "1.5px",
+                                marginTop: "1rem"
+                            }}
+                            type="submit"
+                            className="col s12 btn btn-large waves-effect waves-light hoverable blue accent-3"
+                            >
+                            Add
+                        </button>
+                    
                 </div>
             </form>
         )
@@ -174,4 +193,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user
 });
 
-export default connect(mapStateToProps)(AddExpense);
+export default connect(mapStateToProps)(withRouter(AddExpense));

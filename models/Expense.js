@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const ExpenseSchema = new Schema ({
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
+        type: String,
         required: true
     },
     description: {
@@ -14,6 +13,12 @@ const ExpenseSchema = new Schema ({
     value: {
         type: Number,
         required: true
+    },
+    month: {
+        type: Number,
+    },
+    year: {
+        type: Number
     }
 });
 

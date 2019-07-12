@@ -6,13 +6,13 @@ const Expense = require('../../models/Expense');
 
 
 //get expenses
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/getAll', passport.authenticate('jwt', { session: false }), (req, res) => {
     const ownerId = req.user.id;
-
+    
     Expense.find({ owner: ownerId })
         .then(expense => {
-            let returnExpense = [...expense];
-            res.json(returnExpense);
+        
+            res.status(200).json(expense);
         })
         .catch(err => {
             console.log(err);
@@ -32,11 +32,14 @@ router.post(
         owner: ownerId,
         description: req.body.description,
         value: req.body.value,
-        // month: req.body.month,
-        // year: req.body.year
+        month: req.body.month,
+        year: req.body.year
       });
   
       newExpense.save()
-        .then(() => res.send('Expense successfully added!'));
+        .then(expense => res.json(expense));
     }
   );
+
+
+  module.exports = router;
