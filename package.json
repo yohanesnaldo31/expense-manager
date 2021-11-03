@@ -24,7 +24,7 @@
     "passport-jwt": "^4.0.0",
     "prop-types": "^15.7.2",
     "react-materialize": "^3.3.3",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
